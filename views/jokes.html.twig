@@ -1,0 +1,121 @@
+
+{% extends "layout.html.twig" %}
+{%  block title %}
+	<title>The Funniest Jokes</title>
+{% endblock %}
+{% block leftsidemenu %}
+
+	{% include 'leftsidemenu.html.twig' with {'pictureCategories': pictureCategories,'gameCategories': gameCategories %}
+
+{% endblock %}
+
+{% block content %}
+<section class="pages clearfix">
+	<div id="section-title">
+			<h1>Jokes</h1>
+	</div>
+	<div class="content-inner-left">
+		{% for item in elements %}
+		<article class="post sticky blog-post">
+				<div class="blog-post-content">
+
+					<!-- Featured Slider -->
+					
+
+					<h2 class="blog-post-title"><span href="blog/a-sticky-post.html" title="A Sticky Post">{{ item.title }}</span></h2>
+					<div class="blog-post-meta">
+						<span>{{ item.dateAdd|date("m/d/Y") }}</span> | 
+						Views: <a href="#" title="3">{{item.views}}</a> | 
+						Like: <a href="#">{{item.likes}}</a>
+					</div>
+					<p style="font-size: 1.2em;color: white;">{{ item.joke }}</p>
+					
+					<div class="clear">
+						<button id="share" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin;1px" title="">Share</button>
+						<div id="like" idjokes="{{item.id}}" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin:1px; title="">
+							<div style="float:left">Like</div>
+							
+						</div>
+						<div id="moncercle" style="border-radius: 18%; background: rgb(68, 75, 126) none repeat scroll 0% 0%; height: 28px; border: 2px solid rgb(68, 75, 126); float: right;margin-top: 0.59em;">
+							<p style="margin-top: 0.2em;min-width:1em;text-align:center">{{item.likes}}</p>
+							</div>
+					</div>
+					
+				</div>
+		</article>
+
+		{% endfor %}
+		{% include 'pagination/jokes.html.twig' with {'barepagination':barePagination, 'nbrPage':nbrPage} %}
+	</div>
+	<aside class="sidebar">
+			<ul>
+				
+				<li class="widget widget_recent_entries">
+					<h4 class="widget-title">Recent Jokes</h4>
+					<ul>
+						<li>
+							<a href="blog/a-vimeo-post.html" title="A Vimeo Post">A Vimeo Post</a>
+							<span class="post-date">October 24, 2013</span>
+						</li>
+						<li>
+							<a href="blog/photo-post.html" title="Photo Post">Photo Post</a>
+							<span class="post-date">October 24, 2013</span>
+						</li>
+						<li>
+							<a href="blog/a-youtube-post.html" title="A YouTube Post">A YouTube Post</a>
+							<span class="post-date">October 24, 2013</span>
+						</li>
+						<li>
+							<a href="blog/paginated-post.html" title="Paginated Post">Paginated Post</a>
+							<span class="post-date">October 23, 2013</span>
+						</li>
+						<li>
+							<a href="blog/a-sticky-post.html" title="A Sticky Post">A Sticky Post</a>
+							<span class="post-date">October 20, 2013</span>
+						</li>
+					</ul>
+				</li>
+				
+				<li class="widget widget_tag_cloud">
+					<h4 class="widget-title">Tags</h4>
+					<div class="tagcloud">
+						<a href="#" class="tag-link-8" title="1 topic">Jokes</a>
+						<a href="#" class="tag-link-7" title="2 topics">Funny jokes</a>
+						<a href="#" class="tag-link-3" title="2 topics">Funny  jokes animal</a>
+						<a href="#" class="tag-link-11" title="1 topic">funny jokes girls</a>
+						<a href="#" class="tag-link-10" title="1 topic">funny jokes cars</a>
+						<a href="#" class="tag-link-4" title="5 topics">funny jokes films</a>
+						
+					</div>
+				</li>
+
+				
+			</ul>
+		</aside>
+</section>
+<script>
+$("div.submit.submitTheme").click(function(){
+	var element = $(this);
+	var id = element.attr("idjokes");
+	var request = $.ajax({
+		  url: "/like",
+		  method: "GET",
+		  data: { id : id },
+		  //dataType: "html"
+		});
+		 
+		request.done(function( msg ) {
+		  var like = parseInt($(element).parent().find("p").html()) + 1;
+		  $(element).parent().find("p").html(like);
+
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+		  alert( "Request failed: " + textStatus );
+		});
+});
+
+	
+
+</script>
+{% endblock %}

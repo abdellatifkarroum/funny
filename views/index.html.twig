@@ -1,0 +1,36 @@
+{% extends "layout.html.twig" %}
+{%  block title %}
+	<title>The Funniest Stuffs</title>
+{% endblock %}
+{% block leftsidemenu %}
+
+	{% include 'leftsidemenu.html.twig' with {'pictureCategories': pictureCategories,'gameCategories': gameCategories %}
+
+{% endblock %}
+
+{% block content %}
+<section class="portfolio-full-width-grid">
+	<div class="portfolio-filter-wrapper">
+				<a href="#" title="All" data-category-slug="all" class="active">All</a>
+				<a href="#" title="pictures" data-category-slug="pictures">Pictures</a>
+				<a href="#" title="games" data-category-slug="games">Games</a>
+				<a href="#" title="videos" data-category-slug="music">videos</a>
+				
+			</div>
+	<div id="grid" class="clearfix">
+
+				{% for item in elements %}
+						<div class="thumb" data-project-categories="pictures">
+							{% set filename = item.filename|split('.') %}
+							<a href="/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}" title="{{item.title}}" data-caption="{{item.title}}">
+								<img width="200px" height="200px" src="/data/pics/spictures/{{item.cover}}" alt="{{item.title}} funny pictures">
+							</a>
+						</div>
+						
+				{% endfor %}
+				
+				
+	</div>
+	{% include 'pagination/index.html.twig' with {'barepagination':barePagination, 'nbrPage':nbrPage} %}
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+<div style="margin: 1% 1%;padding-left: 35%;">
+	<p class="wp-link-pages">
+		Pages: 
+		<a href="/funnypictures/page/1" style="width: 45px;">first</a>
+		{% if not (barepagination.actuel == 1) %}
+			<a href="/funnypictures/page/{{barepagination.actuel-1}}">previous</a>
+		{% endif %}
+		{% for page in barepagination.pages %}
+			{% if barepagination.actuel == page %}
+				
+				{{page}}
+			
+			{% else %}
+
+				<a href="/funnypictures/page/{{page}}">{{page}}</a> 
+
+			{% endif %}
+		{% endfor %}
+		
+		{% if not (barepagination.actuel == nbrPage) %}
+			<a href="/funnypictures/page/{{barepagination.actuel+1}}" style="width: 45px;">next</a>
+		{% endif %}
+		<a href="/funnypictures/page/{{nbrPage}}" style="width: 45px;">last</a>
+	</p>
+</div>

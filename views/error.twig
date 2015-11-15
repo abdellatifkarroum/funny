@@ -1,0 +1,10 @@
+{% extends "layout.html.twig" %}
+{% block leftsidemenu %}
+
+	{% include 'leftsidemenu.html.twig' with {'pictureCategories': pictureCategories,'gameCategories': gameCategories %}
+
+{% endblock %}
+{% block content %}
+<h2>the content is not available {{ message }}</h2>
+</section>
+{% endblock %}

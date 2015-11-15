@@ -1,0 +1,160 @@
+{% extends "layout.html.twig" %}
+{% block title %}
+	<title>The Funniest {{ post[0].categorie }} Gif</title>
+{% endblock %}
+{% block leftsidemenu %}
+
+	{% include 'leftsidemenu.html.twig' with {'pictureCategories': pictureCategories,'gameCategories': gameCategories %}
+
+{% endblock %}
+
+{% block content %}
+<section class="pages clearfix">
+	<div id="section-title" style="font-size:5px">
+			<span style="font-size: 7em">{{ post[0].title }}</span>
+	</div>
+	<div class="content-inner-left">
+		<article class="blog-post">
+				<div class="blog-post-content">
+
+					<!-- Featured Slider -->
+					<div class="blog-post-featured-media">
+						<div class="gifholder">
+
+							<div id="gif" style="text-align:center;">
+								<video class="giffy" height="auto" autoplay="" loop="" __idm_id__="657409">
+									
+									<source src="/data/gifs/gifs/{{post[0].filename}}" type="video/webm">
+									<small>Browser does not support playback</small>
+								</video>
+							</div>
+
+
+							
+
+
+						</div>
+					</div>
+
+					<div class="blog-post-meta">
+						<span>{{ post[0].timeAdd|date("m/d/Y") }}</span> | 
+						Views: {{post[0].views}} |  
+						In: <a href="/funnygifs/categorie/{{ post[0].categorie }}/1" title="View all posts in Photography" rel="category tag">{{ post[0].categorie }}</a>
+					</div>
+					<p>{{ post[0].description }}</p>
+
+					<div class="clear">
+						<button id="share" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin;1px" title="">Share</button>
+						<div id="like" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin:1px;" title="">
+							<div width="60%" style="float:left">Like</div>
+						</div>
+						
+							<div id="moncercle" style="border-radius: 18%; background: rgb(68, 75, 126) none repeat scroll 0% 0%; height: 28px; border: 2px solid rgb(68, 75, 126); float: right;margin-top: 0.59em;">
+							<p style="margin-top: 0.2em;">{{post[0].likes}}</p>
+							</div>
+					</div>
+
+					<!-- Post Tags -->
+					<p class="post-tags">
+						Tags: <a href="/funnygifs/categorie/{{ post[0].categorie }}/1" rel="tag"> {{ post[0].categorie }}</a>
+					</p>
+
+				</div>
+			</article>
+
+			<section id="comments">
+
+				<!-- Comment Form -->
+				<div id="respond" class="comment-respond">
+					<h3 id="reply-title" class="comment-reply-title">Drop a comment</h3>
+
+					<form action="#" method="post" id="commentform" class="comment-form">
+						<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>
+						<ul class="left">
+							<li><input id="author" name="author" class="text-field" type="text" placeholder="Name*" value="" size="30" aria-required="true"></li>
+							<li><input id="email" name="email" class="text-field" type="text" placeholder="E-mail*" value="" size="30" aria-required="true"></li>
+							<li><input id="url" name="url" class="text-field" type="text" placeholder="http://" value="" size="30"></li>
+						</ul>
+						<ul class="left" style="width:100%; margin-right:0;">
+							<li style="width:100%;">
+								<textarea id="comment" name="comment" placeholder="Message*" class="txtAra comment" style="width:86%;" cols="32" rows="8" aria-required="true"></textarea>
+								<div style="float:left;clear:both;"></div>
+							</li>
+						</ul>
+						<p class="form-submit"><input name="submit" type="submit" id="submit" value="Post Comment"><input type="hidden" name="comment_post_ID" value="201" id="comment_post_ID"><input type="hidden" name="comment_parent" id="comment_parent" value="0"></p>
+					</form>
+				</div>
+				<!-- Comment Form End-->
+
+			</section>
+	</div>
+	<aside class="sidebar">
+			<ul>
+				
+				<li>{% if previous %}<a href="/funnygifs/funnygif/{{ previous }}" class="submit submitTheme" style="margin-right:10px;" title="">&lt; Previous</a>{% endif %}{% if next %}
+					<a href="/funnygifs/funnygif/{{next}}" class="submit submitTheme" style="margin-right:10px;" title="">Next &gt;</a>{% endif %}
+				</li>
+
+				
+				<li class="widget widget_recent_entries">
+					<h4 class="widget-title">Recent Posts</h4>
+					<ul>
+						{% for item in recents %}
+						<li>
+							<div class="thumb" data-project-categories="pictures">
+							{% set filename = item.filename|split('.') %}
+							<a href="/funnygifs/funnygif/{{(item.filename|split('.'))[0]}}" title="{{item.title}}" data-caption="{{item.title}}">
+								<img width="200px" height="200px" src="/data/gifs/covers/{{item.cover}}" alt="Video and Slider">
+							</a>
+						</div>
+						</li>
+						{% endfor %}
+
+
+						
+					</ul>
+				</li>
+				
+				
+
+				<li class="widget widget_categories">
+					<h4 class="widget-title">Categories</h4>
+					<ul>
+						
+
+						{% for item in pictureCategories %}
+		
+						<li><a href="/funnypictures/categorie/{{item.categorie}}/1" title="{{item.categorie}}">{{item.categorie}}</a></li>
+
+						{% endfor %}
+
+					</ul>
+				</li>
+			</ul>
+		</aside>
+</section>
+<script>
+$("div.submit.submitTheme").click(function(){
+	var element = $(this);
+	var request = $.ajax({
+		  url: "/funnygifs/like",
+		  method: "GET",
+		  data: { id : "{{post[0].id}}" },
+		  //dataType: "html"
+		});
+		 
+		request.done(function( msg ) {
+		  var like = parseInt($("#moncercle > p").html()) + 1;
+		  $("#moncercle > p").html(like);
+
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+		  alert( "Request failed: " + textStatus );
+		});
+});
+
+	
+
+</script>
+{% endblock %}

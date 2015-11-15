@@ -1,0 +1,43 @@
+
+{% extends "layout.html.twig" %}
+{%  block title %}
+	<title>The Funniest Flash Games</title>
+{% endblock %}
+{% block leftsidemenu %}
+
+	{% include 'leftsidemenu.html.twig' with {'pictureCategories': pictureCategories,'gameCategories': gameCategories %}
+
+{% endblock %}
+
+{% block content %}
+<section class="portfolio-full-width-grid">
+<div class="portfolio-filter-wrapper">
+	<a href="#" title="All" data-category-slug="all" class="active">All</a>
+	{% for item in gameCategories %}
+			
+		<a href="#" title="{{ item.categorie }}" data-category-slug="{{ item.categorie }}">{{ item.categorie }}</a>
+			
+	{% endfor %}
+			
+		</div>
+<div id="grid" class="clearfix">
+
+			{% for item in games %}
+					<div class="thumb" data-project-categories="{{item.categorie}}">
+						
+						
+							<a href="/flashgames/flashgame/{{(item.filename|split('.'))[0]}}" title="{{item.title}}" data-caption="{{item.title}}">
+								<img src="/data/games/images/{{item.cover}}" alt="{{item.title}} flash games">
+
+							</a>
+						
+					</div>
+					
+			{% endfor %}
+			
+			
+		</div>
+	{% include 'pagination/games.html.twig' with {'barepagination':barePagination, 'nbrPage':nbrPage} %}
+
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+<div style="margin: 1% 1%;margin-top: -3em;">
+	<p class="wp-link-pages" style="font-size:2em">
+		Pages: 
+		<a href="/jokes/page/1" style="width: 45px;">first</a>
+		{% if not (barepagination.actuel == 1) %}
+			<a href="/jokes/page/{{barepagination.actuel-1}}">previous</a>
+		{% endif %}
+		{% for page in barepagination.pages %}
+			{% if barepagination.actuel == page %}
+				
+				{{page}}
+			
+			{% else %}
+
+				<a href="/jokes/page/{{page}}">{{page}}</a> 
+
+			{% endif %}
+		{% endfor %}
+		
+		{% if not (barepagination.actuel == nbrPage) %}
+			<a href="/jokes/page/{{barepagination.actuel+1}}" style="width: 45px;">next</a>
+		{% endif %}
+		<a href="/jokes/page/{{nbrPage}}" style="width: 45px;">last</a>
+	</p>
+</div>

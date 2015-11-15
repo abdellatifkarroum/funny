@@ -1,0 +1,42 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+	<title>The Funniest {{ item.categorie }} Pictures</title>
+{% endblock %}
+{% block leftsidemenu %}
+
+	{% include 'leftsidemenu.html.twig' with {'pictureCategories': pictureCategories,'gameCategories': gameCategories %}
+
+{% endblock %}
+
+{% block content %}
+<section class="portfolio-full-width-grid">
+<div class="portfolio-filter-wrapper">
+	<a href="#" title="All" data-category-slug="all" class="active">All</a>
+	
+			
+		<a href="#" title="{{ item.categorie }}" data-category-slug="{{categorie }}">{{ categorie }}</a>
+			
+	
+			
+		</div>
+<div id="grid" class="clearfix">
+
+			{% for item in pictures %}
+					<div class="thumb" data-project-categories="{{item.categorie}}">
+						
+						
+							<a href="/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}" title="{{item.title}}" data-caption="{{item.title}}">
+								<img src="/data/pics/spictures/{{item.cover}}" alt="Video and Slider">
+
+							</a>
+						
+					</div>
+					
+			{% endfor %}
+			
+			
+		</div>
+		{% include 'pagination/categoriePictures.html.twig' with {'barepagination':barePagination, 'nbrPage':nbrPage} %}
+</section>
+{% endblock %}
