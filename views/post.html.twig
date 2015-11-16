@@ -156,7 +156,7 @@ $("#share").click(function(){
 			  	method: 'share_open_graph',
           		action_type: 'og.likes',
           		action_properties: JSON.stringify({
-		              object:'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}',
+		              object:'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(post[0].filename|split('.'))[0]}}',
 		          })
 			  //link: 'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}',
 			  //caption: 'good',
