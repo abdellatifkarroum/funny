@@ -146,7 +146,13 @@ $("div.submit.submitTheme").click(function(){
 		});
 });
 
-	
+$("#share").click(function(){
+	FB.ui({
+	  method: 'feed',
+	  link: 'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}',
+	  caption: 'An example caption',
+	}, function(response){});
+})
 
 </script>
 {% endblock %}
