@@ -31,7 +31,7 @@
 						<div class="thumb" data-project-categories="gifs">
 							{% set filename = item.filename|split('.') %}
 							<a href="/funnygifs/funnygif/{{(item.filename|split('.'))[0]}}" title="{{item.title}}" data-caption="{{item.title}}">
-								<img width="200px" height="200px" src="/data/pics/spictures/{{item.cover}}" alt="{{item.title}} funny pictures">
+								<img width="200px" height="200px" src="/data/gifs/covers/{{item.cover}}" alt="{{item.title}} funny pictures">
 							</a>
 						</div>
 					{% endif %}
