@@ -13,19 +13,28 @@
 	<div class="portfolio-filter-wrapper">
 				<a href="#" title="All" data-category-slug="all" class="active">All</a>
 				<a href="#" title="pictures" data-category-slug="pictures">Pictures</a>
-				<a href="#" title="games" data-category-slug="games">Games</a>
-				<a href="#" title="videos" data-category-slug="music">videos</a>
+				<a href="#" title="gifs" data-category-slug="gifs">Gifs</a>
+				
 				
 			</div>
 	<div id="grid" class="clearfix">
 
 				{% for item in elements %}
+					{% if item.type == 'p' %}
 						<div class="thumb" data-project-categories="pictures">
 							{% set filename = item.filename|split('.') %}
 							<a href="/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}" title="{{item.title}}" data-caption="{{item.title}}">
 								<img width="200px" height="200px" src="/data/pics/spictures/{{item.cover}}" alt="{{item.title}} funny pictures">
 							</a>
 						</div>
+					{% else %}
+						<div class="thumb" data-project-categories="gifs">
+							{% set filename = item.filename|split('.') %}
+							<a href="/funnygifs/funnygif/{{(item.filename|split('.'))[0]}}" title="{{item.title}}" data-caption="{{item.title}}">
+								<img width="200px" height="200px" src="/data/pics/spictures/{{item.cover}}" alt="{{item.title}} funny pictures">
+							</a>
+						</div>
+					{% endif %}
 						
 				{% endfor %}
 				
