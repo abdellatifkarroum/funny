@@ -63,22 +63,8 @@
 				<!-- Comment Form -->
 				<div id="respond" class="comment-respond">
 					<h3 id="reply-title" class="comment-reply-title">Drop a comment</h3>
-<div class="fb-comments" data-href="http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(post[0].filename|split('.'))[0]}}" data-numposts="5"></div>
-					<form action="#" method="post" id="commentform" class="comment-form">
-						<p class="comment-notes">Your email address will not be published. Required fields are marked <span class="required">*</span></p>
-						<ul class="left">
-							<li><input id="author" name="author" class="text-field" type="text" placeholder="Name*" value="" size="30" aria-required="true"></li>
-							<li><input id="email" name="email" class="text-field" type="text" placeholder="E-mail*" value="" size="30" aria-required="true"></li>
-							<li><input id="url" name="url" class="text-field" type="text" placeholder="http://" value="" size="30"></li>
-						</ul>
-						<ul class="left" style="width:100%; margin-right:0;">
-							<li style="width:100%;">
-								<textarea id="comment" name="comment" placeholder="Message*" class="txtAra comment" style="width:86%;" cols="32" rows="8" aria-required="true"></textarea>
-								<div style="float:left;clear:both;"></div>
-							</li>
-						</ul>
-						<p class="form-submit"><input name="submit" type="submit" id="submit" value="Post Comment"><input type="hidden" name="comment_post_ID" value="201" id="comment_post_ID"><input type="hidden" name="comment_parent" id="comment_parent" value="0"></p>
-					</form>
+					<div class="fb-comments" data-href="http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(post[0].filename|split('.'))[0]}}" data-numposts="5" data-colorscheme="dark"></div>
+					
 				</div>
 				<!-- Comment Form End-->
 
