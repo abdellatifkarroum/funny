@@ -2,7 +2,9 @@
 
 {% block meta %}
 <meta property="og:title"              content="{{ post[0].title}}" />
+<meta property="og:description"              content="{{ post[0].description}}" />
 <meta property="og:image"              content="http://www.thefunnieststuffs.com/data/pics/spictures/{{ post[0].cover }}" />
+<meta property="og:url"              content="http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(post[0].filename|split('.'))[0]}}" />
 {% endblock %}
 
 {% block title %}
@@ -147,12 +149,22 @@ $("div.submit.submitTheme").click(function(){
 });
 
 $("#share").click(function(){
-	FB.ui({
-	  method: 'feed',
-	  link: 'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}',
-	  caption: 'An example caption',
-	}, function(response){});
-})
+	  
+	FB.getLoginStatus(function(response) {
+	  	if (response.status === 'connected') {
+		    FB.ui({
+			  method: 'feed',
+			  //link: 'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}',
+			  //caption: 'good',
+			}, function(response){});
+	  	}
+	  	else {
+	    	FB.login();
+	  	}
+	});
+		
+});
+
 
 </script>
 {% endblock %}
