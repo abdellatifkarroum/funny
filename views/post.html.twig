@@ -1,10 +1,12 @@
 {% extends "layout.html.twig" %}
 
 {% block meta %}
-<meta property="og:title"              content="{{ post[0].title}}" />
-<meta property="og:description"              content="{{ post[0].description}}" />
-<meta property="og:image"              content="http://www.thefunnieststuffs.com/data/pics/spictures/{{ post[0].cover }}" />
-<meta property="og:url"              content="http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(post[0].filename|split('.'))[0]}}" />
+<meta property="og:url" content="http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(post[0].filename|split('.'))[0]}}" />
+<meta property="og:title" content="{{ post[0].title}}" />
+<meta property="og:image" content="http://www.thefunnieststuffs.com/data/pics/spictures/{{ post[0].cover }}" />
+<meta property="og:description" content="{{ post[0].description}}" />
+
+
 {% endblock %}
 
 {% block title %}
