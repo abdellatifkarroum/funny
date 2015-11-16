@@ -153,7 +153,11 @@ $("#share").click(function(){
 	FB.getLoginStatus(function(response) {
 	  	if (response.status === 'connected') {
 		    FB.ui({
-			  method: 'feed',
+			  	method: 'share_open_graph',
+          		action_type: 'og.likes',
+          		action_properties: JSON.stringify({
+		              object:'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}',
+		          })
 			  //link: 'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}',
 			  //caption: 'good',
 			}, function(response){});
