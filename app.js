@@ -10,7 +10,7 @@ pool = mysql.createPool({
   connectionLimit : 10,
   host : 'localhost',
   user : 'root',
-  password : 'a&Z2e"R4t(',
+  password : '',
   database : 'portfolio'
 });
 var routes = require('./routes/index');
