@@ -1,5 +1,12 @@
 
 {% extends "layout.html.twig" %}
+{% block meta %}
+<meta property="og:url" content="http://www.thefunnieststuffs.com/funnyjokes/funnyjoke/{{(post[0].id}}" />
+<meta property="og:title" content="{{ post[0].title}}" />
+<meta property="og:description" content="{{ post[0].joke}}" />
+
+
+{% endblock %}
 {%  block title %}
 	<title>The Funniest Jokes</title>
 {% endblock %}
