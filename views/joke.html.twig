@@ -1,0 +1,143 @@
+
+{% extends "layout.html.twig" %}
+{%  block title %}
+	<title>The Funniest Jokes</title>
+{% endblock %}
+{% block leftsidemenu %}
+
+	{% include 'leftsidemenu.html.twig' with {'pictureCategories': pictureCategories,'gameCategories': gameCategories %}
+
+{% endblock %}
+
+{% block content %}
+<section class="pages clearfix">
+	<div id="section-title">
+			<h3 style="font-size: 0.8em;">Funny Joke</h3>
+	</div>
+	<div class="content-inner-left">
+		
+		<article class="post sticky blog-post">
+				<div class="blog-post-content">
+
+					<!-- Featured Slider -->
+					
+
+					<h2 class="blog-post-title"><span href="blog/a-sticky-post.html" title="A Sticky Post">{{ post[0].title }}</span></h2>
+					<div class="blog-post-meta">
+						<span>{{ post[0].dateAdd|date("m/d/Y") }}</span> | 
+						Views: <a href="#" title="3">{{post[0].views}}</a> | 
+						Like: <a href="#">{{post[0].likes}}</a>
+					</div>
+					<p style="font-size: 1.2em;color: white;">{{ post[0].joke }}</p>
+					
+					<div class="clear">
+						<button id="share" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin;1px" title="">Share</button>
+						<div id="like" idjokes="{{post[0].id}}" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin:1px"; title="">
+							<div style="float:left">Like</div>
+							
+						</div>
+						<div id="moncercle" style="border-radius: 18%; background: rgb(68, 75, 126) none repeat scroll 0% 0%; height: 28px; border: 2px solid rgb(68, 75, 126); float: right;margin-top: 0.59em;">
+							<p style="margin-top: 0.2em;min-width:1em;text-align:center">{{post[0].likes}}</p>
+							</div>
+					</div>
+					
+				</div>
+		</article>
+
+		
+		
+	</div>
+	<aside class="sidebar">
+			<ul>
+				<li>{% if previous %}<a href="/funnyjokes/funnyjoke/{{ previous }}" class="submit submitTheme" style="margin-right:10px;" title="">&lt; Previous</a>{% endif %}{% if next %}
+					<a href="/funnyjokes/funnyjoke/{{next}}" class="submit submitTheme" style="margin-right:10px;" title="">Next &gt;</a>{% endif %}
+				</li>
+				
+				<li>
+					<div class="fb-page" data-href="https://www.facebook.com/thefunniestpicturesvideosjokes" data-height="200" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/thefunniestpicturesvideosjokes"><a href="https://www.facebook.com/thefunniestpicturesvideosjokes">The Funniest Stuffs</a></blockquote></div></div>
+				</li>
+				
+				<li class="widget widget_recent_entries">
+					<h4 class="widget-title">Recent Jokes</h4>
+					<ul>
+						{% for item in recents %}
+						<li>
+							<div class="thumb" data-project-categories="pictures">
+							
+							<a href="/funnyjokes/funnyjoke/{{item.id}}"  data-caption="{{item.title}}">
+								{{item.title}}
+							</a>
+						</div>
+						</li>
+						{% endfor %}
+
+
+						
+					</ul>
+				</li>
+				
+				<li class="widget widget_tag_cloud">
+					<h4 class="widget-title">Tags</h4>
+					<div class="tagcloud">
+						<a href="#" class="tag-link-8" title="1 topic">Jokes</a>
+						<a href="#" class="tag-link-7" title="2 topics">Funny jokes</a>
+						<a href="#" class="tag-link-3" title="2 topics">Funny  jokes animal</a>
+						<a href="#" class="tag-link-11" title="1 topic">funny jokes girls</a>
+						<a href="#" class="tag-link-10" title="1 topic">funny jokes cars</a>
+						<a href="#" class="tag-link-4" title="5 topics">funny jokes films</a>
+						
+					</div>
+				</li>
+
+				
+			</ul>
+		</aside>
+</section>
+<script>
+$("#like").click(function(){
+	var element = $(this);
+	var id = element.attr("idjokes");
+	var request = $.ajax({
+		  url: "/like",
+		  method: "GET",
+		  data: { id : id },
+		  //dataType: "html"
+		});
+		 
+		request.done(function( msg ) {
+		  var like = parseInt($(element).parent().find("p").html()) + 1;
+		  $(element).parent().find("p").html(like);
+
+		});
+		 
+		request.fail(function( jqXHR, textStatus ) {
+		  alert( "Request failed: " + textStatus );
+		});
+});
+
+	
+$("#share").click(function(){
+	  
+	FB.getLoginStatus(function(response) {
+	  	if (response.status === 'connected') {
+		    FB.ui({
+			  	method: 'share_open_graph',
+          		action_type: 'og.likes',
+          		action_properties: JSON.stringify({
+		              object:'http://www.thefunnieststuffs.com/funnyjokes/funnyjoke/{{post[0].id}}',
+		          })
+			  //link: 'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}',
+			  //caption: 'good',
+			}, function(response){});
+	  	}
+	  	else {
+	    	FB.login();
+	  	}
+	});
+		
+});
+	
+	
+
+</script>
+{% endblock %}

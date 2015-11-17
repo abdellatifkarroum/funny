@@ -22,7 +22,7 @@
 					<!-- Featured Slider -->
 					
 
-					<h2 class="blog-post-title"><span href="blog/a-sticky-post.html" title="A Sticky Post">{{ item.title }}</span></h2>
+					<a href="/funnyjokes/funnyjoke/{{ item.id }}"><h2 class="blog-post-title"><span href="blog/a-sticky-post.html" title="A Sticky Post">{{item.title}}</span></h2></a>
 					<div class="blog-post-meta">
 						<span>{{ item.dateAdd|date("m/d/Y") }}</span> | 
 						Views: <a href="#" title="3">{{item.views}}</a> | 
@@ -31,8 +31,8 @@
 					<p style="font-size: 1.2em;color: white;">{{ item.joke }}</p>
 					
 					<div class="clear">
-						<button id="share" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin;1px" title="">Share</button>
-						<div id="like" idjokes="{{item.id}}" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin:1px; title="">
+						<button id="share" idjokes="{{item.id}}" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin;1px" title="">Share</button>
+						<div id="like" idjokes="{{item.id}}" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin:1px"; title="">
 							<div style="float:left">Like</div>
 							
 						</div>
@@ -51,29 +51,29 @@
 			<ul>
 				
 				<li class="widget widget_recent_entries">
+					
+					<li>
+					<div class="fb-page" data-href="https://www.facebook.com/thefunniestpicturesvideosjokes" data-height="200" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/thefunniestpicturesvideosjokes"><a href="https://www.facebook.com/thefunniestpicturesvideosjokes">The Funniest Stuffs</a></blockquote></div></div>
+				</li>
+				
+				<li class="widget widget_recent_entries">
 					<h4 class="widget-title">Recent Jokes</h4>
 					<ul>
+						{% for item in recents %}
 						<li>
-							<a href="blog/a-vimeo-post.html" title="A Vimeo Post">A Vimeo Post</a>
-							<span class="post-date">October 24, 2013</span>
+							<div class="thumb" data-project-categories="pictures">
+							
+							<a href="/funnyjokes/funnyjoke/{{item.id}}" title="{{item.title}}" data-caption="{{item.title}}">
+								{{item.title}}
+							</a>
+						</div>
 						</li>
-						<li>
-							<a href="blog/photo-post.html" title="Photo Post">Photo Post</a>
-							<span class="post-date">October 24, 2013</span>
-						</li>
-						<li>
-							<a href="blog/a-youtube-post.html" title="A YouTube Post">A YouTube Post</a>
-							<span class="post-date">October 24, 2013</span>
-						</li>
-						<li>
-							<a href="blog/paginated-post.html" title="Paginated Post">Paginated Post</a>
-							<span class="post-date">October 23, 2013</span>
-						</li>
-						<li>
-							<a href="blog/a-sticky-post.html" title="A Sticky Post">A Sticky Post</a>
-							<span class="post-date">October 20, 2013</span>
-						</li>
+						{% endfor %}
+
+
+						
 					</ul>
+				</li>
 				</li>
 				
 				<li class="widget widget_tag_cloud">
@@ -113,6 +113,27 @@ $("div.submit.submitTheme").click(function(){
 		request.fail(function( jqXHR, textStatus ) {
 		  alert( "Request failed: " + textStatus );
 		});
+});
+
+$("button.submit.submitTheme").click(function(){
+	var element = $(this);
+	var id = element.attr("idjokes");
+	FB.getLoginStatus(function(response) {
+	  	if (response.status === 'connected') {
+		    FB.ui({
+			  	method: 'share_open_graph',
+          		action_type: 'og.likes',
+          		action_properties: JSON.stringify({
+		              object:'http://www.thefunnieststuffs.com/funnyjokes/funnyjoke/'+id,
+		          })
+			  //link: 'http://www.thefunnieststuffs.com/funnypictures/funnypicture/{{(item.filename|split('.'))[0]}}',
+			  //caption: 'good',
+			}, function(response){});
+	  	}
+	  	else {
+	    	FB.login();
+	  	}
+	});
 });
 
 	

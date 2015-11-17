@@ -21,6 +21,7 @@ var routes = require('./routes/index');
 var funnypictures = require('./routes/funnypictures');
 var funnygifs = require('./routes/funnygifs');
 var flashgames = require('./routes/flashgames');
+var funnyjokes = require('./routes/funnyjokes');
 var twig = require('twig');
 
 var app = express();
@@ -54,6 +55,7 @@ app.use('/', routes);
 app.use('/funnypictures', funnypictures);
 app.use('/funnygifs', funnygifs);
 app.use('/flashgames', flashgames);
+app.use('/funnyjokes', funnyjokes);
 
 
 
