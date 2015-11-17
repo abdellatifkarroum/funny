@@ -6,8 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require("mysql");
 var fs = require("fs");
-var path = "/home/info/projects/funny/pass.json";
-var dat = JSON.parse(fs.read(path,"utf8"));
+var pathPass = "pass.json";
+var params = fs.readFileSync(pathPass,"utf8");
+var dat = JSON.parse(params);
 pool = mysql.createPool({
   multipleStatements: true,
   connectionLimit : 10,
