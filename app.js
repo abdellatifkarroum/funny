@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require("mysql");
+var fs = require("fs");
 var dat = JSON.parse(fs.read(path,"utf8"));
 pool = mysql.createPool({
   multipleStatements: true,
