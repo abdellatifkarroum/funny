@@ -5,12 +5,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require("mysql");
+var dat = JSON.parse(fs.read(path,"utf8"));
 pool = mysql.createPool({
   multipleStatements: true,
   connectionLimit : 10,
   host : 'localhost',
-  user : 'root',
-  password : '',
+  user : dat[0],
+  password : dat[1],
   database : 'portfolio'
 });
 var routes = require('./routes/index');
