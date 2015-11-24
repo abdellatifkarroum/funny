@@ -28,7 +28,7 @@
 						Views: <a href="#" title="3">{{item.views}}</a> | 
 						Like: <a href="#">{{item.likes}}</a>
 					</div>
-					<p style="font-size: 1.2em;color: white;">{{ item.joke }}</p>
+					<p style="font-size: 1.2em;color: white;">{{ item.joke|slice(1,200) }}..........<a href="/funnyjokes/funnyjoke/{{item.id}}">Full Joke</a></p>
 					
 					<div class="clear">
 						<button id="share" idjokes="{{item.id}}" class="submit submitTheme" style="background-color: rgb(68, 75, 126) ! important; border-radius: 15px;float:right;font-weight:bold;font-size:1em;margin;1px" title="">Share</button>

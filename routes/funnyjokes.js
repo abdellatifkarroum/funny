@@ -74,7 +74,7 @@ router.get('/funnyjoke/:id([0-9]+)',function(req,res,next){
 			connection.release();
 			//if(err) throw err;
 			var query = "select * from jokes where id = ?";
-			//console.log(query)
+			console.log(query)
 
 			post(req,res,query,"jokes",categories,filename,next);
 
@@ -91,7 +91,7 @@ router.get('/funnyjoke/:id([0-9]+)',function(req,res,next){
 
 
 
-function post(req,res,query,table,categories,id){
+function post(req,res,query,table,categories,id,nextt){
 	var filename = id;
 	pool.getConnection(function(err, connection) {
 		var query1 = connection.query(query,[id],function(err,results,fields){
@@ -100,14 +100,16 @@ function post(req,res,query,table,categories,id){
 			var next, previous;
 
 			var query = "SELECT * FROM "+table+" WHERE id = (( SELECT id FROM "+table+" WHERE id = '"+id+"' limit 1)+1 ) or id = (( SELECT id FROM "+table+" WHERE id = '"+id+"' limit 1)-1)";
-			//console.log(query);
+			console.log(query);
 			connection.query(query,["%"+id+"%","%"+id+"%"],function(err,result,fields){
 
 				if(err)throw err;
 				var parametres = {};
 				if(!result[0]){
 
-					res.render("error.html.twig");
+					var err = new Error('Not Found');
+				    err.status = 404;
+				    nextt(err);return;
 
 				}
 				if(result.length == 1){
@@ -141,7 +143,7 @@ function post(req,res,query,table,categories,id){
 				parametres["pictureCategories"] = categories[0];
 				parametres["gameCategories"] = gameCategories;
 				parametres["recents"] = categories[3];
-				//console.log(JSON.stringify(categories[3]))
+				console.log(JSON.stringify(categories[3]))
 
 				res.render("joke.html.twig",parametres);
 
@@ -149,7 +151,7 @@ function post(req,res,query,table,categories,id){
 
 			
 		});
-		//console.log(query1.sql);
+		console.log(query1.sql);
 
 	});
 	
@@ -165,11 +167,11 @@ function pagination(res,query,page,offset,render){
 	pool.getConnection(function(err,connection){
 
 		connection.query(query,function(err,results){
-			////console.log(results);
+			//console.log(results);
 			connection.release();
 			var nbrPage = Math.ceil(results[2][0].nbrPost/nbrPost);
 			
-			//console.log(nbrPage); 
+			console.log(nbrPage); 
 			
 			barePagination.actuel = page;
 
@@ -197,7 +199,7 @@ function pagination(res,query,page,offset,render){
 			for(var i = barePagination.debut; i <= barePagination.fin; i++){
 				pages.push(i);
 			}
-			//console.log(JSON.stringify(barePagination));
+			console.log(JSON.stringify(barePagination));
 			barePagination.pages = pages;
 			
 
