@@ -94,7 +94,7 @@ function post(req,res,query,table,categories){
 			var next, previous;
 
 			var query = "SELECT * FROM "+table+" WHERE id = (( SELECT id FROM "+table+" WHERE filename like '"+id+"' limit 1)+1 ) or id = (( SELECT id FROM "+table+" WHERE filename like '"+id+"' limit 1)-1)";
-			console.log(query);
+			////console.log(query);
 			connection.query(query,["%"+id+"%","%"+id+"%"],function(err,result,fields){
 
 				if(err)throw err;
@@ -142,7 +142,7 @@ function post(req,res,query,table,categories){
 			
 		});
 	});
-	console.log(query.sql);
+	////console.log(query.sql);
 
 	//connection.end();
 	
@@ -156,11 +156,11 @@ function pagination(res,query,page,offset,render){
 	pool.getConnection(function(err,connection){
 
 		connection.query(query,function(err,results){
-			//console.log(results);
+			////console.log(results);
 			connection.release();
 			var nbrPage = Math.ceil(results[2][0].nbrPost/nbrPost);
 			
-			console.log(nbrPage); 
+			////console.log(nbrPage); 
 			
 			barePagination.actuel = page;
 
@@ -188,7 +188,7 @@ function pagination(res,query,page,offset,render){
 			for(var i = barePagination.debut; i <= barePagination.fin; i++){
 				pages.push(i);
 			}
-			console.log(JSON.stringify(barePagination));
+			////console.log(JSON.stringify(barePagination));
 			barePagination.pages = pages;
 			
 
@@ -210,7 +210,7 @@ function pagination(res,query,page,offset,render){
 function insert(){
 	var path ="D:\\caspserFiles\\games\\allData.json";
 	fs.readFile(path, function (err, data) {
-	  console.log("connection is good");
+	  //console.log("connection is good");
 	  var obj = JSON.parse(data);
 	  //var query = "insert into jokes set joke = ?, title = ?, dateAdd = ?";
 	  //for(var i=0;i<obj.length;i++){
@@ -220,7 +220,7 @@ function insert(){
 	  	var filename = (obj[i].filename);
 	  	var title = (obj[i].title);
 	  	var desc = (obj[i].desc);
-	  	//console.log(desc);
+	  	////console.log(desc);
 	  	var like = parseInt(obj[i].like);
 	  	var dislike = parseInt(obj[i].dislike);
 	  	var categorie = obj[i].cat;
@@ -243,7 +243,7 @@ function insert(){
 	  		if(err)throw err;
 
 	  	});
-	  	console.log(query.sql);
+	  	////console.log(query.sql);
 
 	  	
 	  };

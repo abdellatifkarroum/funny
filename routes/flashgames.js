@@ -14,7 +14,7 @@ var nbrPost = 20;
 router.get('/', function(req, res, next) {
 
 	res.redirect("/flashgames/page/1");
-	console.log("redirectionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+	//console.log("redirectionnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
 	//connection.end();
   
 });
@@ -97,7 +97,7 @@ function post(req,res,query,table,categories,filename,nextt){
 
 
 			var query = "SELECT * FROM "+table+" WHERE id = (( SELECT id FROM "+table+" WHERE filename like '"+id+"' limit 1)+1 ) or id = (( SELECT id FROM "+table+" WHERE filename like '"+id+"' limit 1)-1)";
-			console.log(query);
+			//console.log(query);
 			
 
 			connection.query(query,["%"+id+"%","%"+id+"%"],function(err,result,fields){
@@ -167,7 +167,7 @@ router.get('/page/:page([0-9]+)', function(req, res, next) {
 
 	var params = pagination(res,query3,page,offset,"games.html.twig");
 
-	console.log(JSON.stringify(params));
+	//console.log(JSON.stringify(params));
 	
 
 });
@@ -175,12 +175,12 @@ router.get('/page/:page([0-9]+)', function(req, res, next) {
 function pagination(res,query,page,offset,render,categorie,nextt){
 	var barePagination = {"debut":1,"actuel":1,"fin":9};
 	var params;
-	console.log(query);
+	//console.log(query);
 	pool.getConnection(function(err,connection){
 
 		connection.query(query,function(err,results){
 			connection.release();
-			console.log(results[2][0]);
+			//console.log(results[2][0]);
 			if(results[2][0].nbrPost == 0){
 					var err = new Error('Not Found');
 				    err.status = 404;
@@ -190,7 +190,7 @@ function pagination(res,query,page,offset,render,categorie,nextt){
 				}
 			var nbrPage = Math.ceil(results[2][0].nbrPost/nbrPost);
 			
-			console.log(nbrPage); 
+			//console.log(nbrPage); 
 			
 			barePagination.actuel = page;
 
@@ -224,7 +224,7 @@ function pagination(res,query,page,offset,render,categorie,nextt){
 			for(var i = barePagination.debut; i <= barePagination.fin; i++){
 				pages.push(i);
 			}
-			console.log(JSON.stringify(barePagination));
+			//console.log(JSON.stringify(barePagination));
 			barePagination.pages = pages;
 			
 
@@ -251,7 +251,7 @@ module.exports = router;
 function insert(){
 	var path ="D:\\caspserFiles\\games\\allData.json";
 	fs.readFile(path, function (err, data) {
-	  console.log("connection is good");
+	  //console.log("connection is good");
 	  var obj = JSON.parse(data);
 	  //var query = "insert into jokes set joke = ?, title = ?, dateAdd = ?";
 	  //for(var i=0;i<obj.length;i++){
@@ -284,7 +284,7 @@ function insert(){
 	  		if(err)throw err;
 
 	  	});
-	  	console.log(query.sql);
+	  	//console.log(query.sql);
 
 	  	
 	  };
