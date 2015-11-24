@@ -11,7 +11,7 @@ var params = fs.readFileSync(pathPass,"utf8");
 var dat = JSON.parse(params);
 pool = mysql.createPool({
   multipleStatements: true,
-  connectionLimit : 100,
+  connectionLimit : 10,
   host : 'localhost',
   user : dat[0],
   password : dat[1],
