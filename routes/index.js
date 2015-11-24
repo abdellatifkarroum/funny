@@ -25,9 +25,9 @@ router.get('/page/:page([0-9]+)', function(req, res, next) {
 	var page = parseInt(req.params.page);
 	var offset = (page-1)*nbrPost;
 
-	var query = "select * from allData order by timeAdd DESC limit 20 offset "+offset;
+	var query = "select * from pictures order by timeAdd DESC limit 20 offset "+offset;
 	var query1 = "select distinct(categorie) from pictures";
-	var query2 = "select count(*) as nbrPost from allData";
+	var query2 = "select count(*) as nbrPost from pictures";
 
 	//var query2 = "select distinct(categorie) from games";
 	var query = query+";"+query1+";"+query2;
