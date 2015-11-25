@@ -74,7 +74,7 @@ router.get('/funnyjoke/:id([0-9]+)',function(req,res,next){
 			connection.release();
 			//if(err) throw err;
 			var query = "select * from jokes where id = ?";
-			console.log(query)
+			//console.log(query)
 
 			post(req,res,query,"jokes",categories,filename,next);
 
@@ -99,9 +99,10 @@ function post(req,res,query,table,categories,id,nextt){
 			var id = filename//+".jpg";
 			var next, previous;
 
-			var query = "SELECT * FROM "+table+" WHERE id = (( SELECT id FROM "+table+" WHERE id = '"+id+"' limit 1)+1 ) or id = (( SELECT id FROM "+table+" WHERE id = '"+id+"' limit 1)-1)";
-			console.log(query);
-			connection.query(query,["%"+id+"%","%"+id+"%"],function(err,result,fields){
+			//var query = "SELECT * FROM "+table+" WHERE id = (( SELECT id FROM "+table+" WHERE id = '"+id+"' limit 1)+1 ) or id = (( SELECT id FROM "+table+" WHERE id = '"+id+"' limit 1)-1)";
+			var query = "(SELECT * FROM "+table+" WHERE dateAdd < ( SELECT dateAdd FROM "+table+" WHERE id = ? ) order by dateAdd ASC limit 1) union  (SELECT * FROM "+table+" WHERE dateAdd > ( SELECT dateAdd FROM "+table+" WHERE id = ? ) order by dateAdd DESC limit 1)";
+			//console.log(query);
+			connection.query(query,[id,id],function(err,result,fields){
 
 				if(err)throw err;
 				var parametres = {};
@@ -118,14 +119,14 @@ function post(req,res,query,table,categories,id,nextt){
 
 						parametres = {
 							"post":results,
-							"previous":filename-1
+							"next":result[0].id
 						};
 
 					}else{
 
 						parametres = {
 							"post":results,
-							"next":filename+1
+							"previous":result[0].id
 						};
 
 					}
@@ -134,8 +135,8 @@ function post(req,res,query,table,categories,id,nextt){
 
 					parametres = {
 							"post":results,
-							"next":filename+1,
-							"previous":filename-1
+							"previous":result[0].id,
+							"next":result[1].id
 						};
 
 				}
@@ -143,7 +144,7 @@ function post(req,res,query,table,categories,id,nextt){
 				parametres["pictureCategories"] = categories[0];
 				parametres["gameCategories"] = gameCategories;
 				parametres["recents"] = categories[3];
-				console.log(JSON.stringify(categories[3]))
+				//console.log(JSON.stringify(categories[3]))
 
 				res.render("joke.html.twig",parametres);
 
@@ -151,7 +152,7 @@ function post(req,res,query,table,categories,id,nextt){
 
 			
 		});
-		console.log(query1.sql);
+		//console.log(query1.sql);
 
 	});
 	
@@ -171,7 +172,7 @@ function pagination(res,query,page,offset,render){
 			connection.release();
 			var nbrPage = Math.ceil(results[2][0].nbrPost/nbrPost);
 			
-			console.log(nbrPage); 
+			//console.log(nbrPage); 
 			
 			barePagination.actuel = page;
 
@@ -199,7 +200,7 @@ function pagination(res,query,page,offset,render){
 			for(var i = barePagination.debut; i <= barePagination.fin; i++){
 				pages.push(i);
 			}
-			console.log(JSON.stringify(barePagination));
+			//console.log(JSON.stringify(barePagination));
 			barePagination.pages = pages;
 			
 

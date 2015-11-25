@@ -15,7 +15,7 @@ var nbrPost = 20;
 router.get('/', function(req, res, next) {
 
 	res.redirect("/funnypictures/page/1");
-	//console.log("redirection");
+	console.log("redirection");
 	//connection.end();
   
 });
@@ -30,7 +30,7 @@ router.get('/categorie/:categorie/:page([0-9]+)', function(req, res, next) {
 	var categorie = (req.params.categorie);
 	var page = parseInt(req.params.page);
 	var offset = (page-1)*nbrPost;
-	var query = "select * from pictures where categorie like '"+categorie+"' order by timeAdd DESC  limit "+nbrPost+" offset "+offset;
+	var query = "select * from pictures where categorie like '"+categorie+"' order by dateAdd DESC  limit "+nbrPost+" offset "+offset;
 	var query1 = "select distinct(categorie) from pictures";
 	var query2 = "select count(*) as nbrPost from pictures where categorie like '"+categorie+"'";
 	//var query2 = "select distinct(categorie) from games";
@@ -49,11 +49,11 @@ router.get('/categorie/:categorie/:page([0-9]+)', function(req, res, next) {
 
 router.get('/funnypicture/:id',function(req,res,next){
 	
-	var filename = "%"+req.params.id+"%";
+	var filename = req.params.id+".jpg";
 	var query1 = "select distinct(categorie) from pictures";
 	var query2 = "select distinct(categorie) from games";
 	var query3 = "update pictures set views = views+1 where filename like "+pool.escape(filename)+"";
-	//console.log(query3+' query3');
+	console.log(query3+' query3');
 	var query4 = "select * from pictures order by id desc limit 4"
 	var query = query1+";"+query2+";"+query3+";"+query4;
 	pool.getConnection(function(err,connection){
@@ -99,9 +99,9 @@ function post(req,res,query,table,categories,filename,nextt){
 			var next, previous;
 
 
-			var query = "SELECT * FROM "+table+" WHERE id = (( SELECT id FROM "+table+" WHERE filename like '"+id+"' limit 1)+1 ) or id = (( SELECT id FROM "+table+" WHERE filename like '"+id+"' limit 1)-1)";
-			//console.log(results);
-			connection.query(query,["%"+id+"%","%"+id+"%"],function(err,result,fields){
+			var query = "(SELECT * FROM "+table+" WHERE dateAdd < ( SELECT dateAdd FROM "+table+" WHERE filename like ? ) order by dateAdd ASC limit 1) union  (SELECT * FROM "+table+" WHERE dateAdd > ( SELECT dateAdd FROM "+table+" WHERE filename like ? ) order by dateAdd DESC limit 1)";
+			
+			var query7 = connection.query(query,[id,id],function(err,result,fields){
 				connection.release();
 				
 				var parametres = {};
@@ -134,8 +134,8 @@ function post(req,res,query,table,categories,filename,nextt){
 
 					parametres = {
 							"post":results,
-							"next":(result[1].filename).split(".")[0],
-							"previous":(result[0].filename).split(".")[0]
+							"next":(result[0].filename).split(".")[0],
+							"previous":(result[1].filename).split(".")[0]
 						};
 
 				}
@@ -145,11 +145,11 @@ function post(req,res,query,table,categories,filename,nextt){
 				parametres["recents"] = categories[3];
 
 				res.render("post.html.twig",parametres);
-
+				console.log(query7.sql)
 			});
 			
 		});
-		////console.log(query.sql)
+		//console.log(query.sql)
 
 	});
 	
@@ -169,7 +169,7 @@ router.get('/page/:page([0-9]+)', function(req, res, next) {
 
 	pagination(res,query3,page,offset,"pictures.html.twig");
 
-	////console.log(JSON.stringify(params));
+	//console.log(JSON.stringify(params));
 	
 
 });
@@ -249,46 +249,3 @@ module.exports = router;
 
 
 
-function insert(){
-	var path ="D:\\caspserFiles\\games\\allData.json";
-	fs.readFile(path, function (err, data) {
-	  //console.log("connection is good");
-	  var obj = JSON.parse(data);
-	  //var query = "insert into jokes set joke = ?, title = ?, dateAdd = ?";
-	  //for(var i=0;i<obj.length;i++){
-	  for(var i=0;i<obj.length;i++){
-	  		  var query = "insert into games set filename = ?, title = ?, description = ?, likes=?, dislike=?, categorie=?, views=?, dateAdd=?";
-
-	  	var filename = (obj[i].filename);
-	  	var title = (obj[i].title);
-	  	var desc = (obj[i].desc);
-	  	////console.log(desc);
-	  	var like = parseInt(obj[i].like);
-	  	var dislike = parseInt(obj[i].dislike);
-	  	var categorie = obj[i].cat;
-	  	var views,dateAdd;
-
-	  	if(obj[i].views){
-	  		views = parseInt(obj[i].views);
-	  		var t = (obj[i].dateAdd).split("/");
-	  		dateAdd = t[2]+'-'+t[0]+'-'+t[1];
-	  	}else{
-	  		views = 0;
-	  		dateAdd = "2015-10-26";
-	  	}
-
-	  	var data = [filename,title,desc,like,dislike,categorie,views,dateAdd];
-	  	
-	  	var query = connection.query(query,data,function(err, result){
-	  	//connection.query(query,obj[i].joke,function(err, result){
-	  		
-	  		if(err)throw err;
-
-	  	});
-	  	//console.log(query.sql);
-
-	  	
-	  };
-	  
-	});
-}

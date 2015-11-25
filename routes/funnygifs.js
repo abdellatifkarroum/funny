@@ -50,7 +50,7 @@ router.get('/categorie/:categorie/:page([0-9]+)', function(req, res, next) {
 
 router.get('/funnygif/:id',function(req,res,next){
 	
-	var filename = "%"+req.params.id+"%";
+	var filename = req.params.id+".webm";
 	var query1 = "select distinct(categorie) from pictures";
 	var query2 = "select distinct(categorie) from games";
 	var query3 = "update gifs set views = views+1 where filename like "+pool.escape(filename)+"";
@@ -100,9 +100,9 @@ function post(req,res,query,table,categories,filename,nextt){
 			var next, previous;
 
 
-			var query = "SELECT * FROM "+table+" WHERE id = (( SELECT id FROM "+table+" WHERE filename like '"+id+"' limit 1)+1 ) or id = (( SELECT id FROM "+table+" WHERE filename like '"+id+"' limit 1)-1)";
+			var query = "(SELECT * FROM "+table+" WHERE dateAdd < ( SELECT dateAdd FROM "+table+" WHERE filename like ? ) order by dateAdd ASC limit 1) union  (SELECT * FROM "+table+" WHERE dateAdd > ( SELECT dateAdd FROM "+table+" WHERE filename like ? ) order by dateAdd DESC limit 1)";
 			//console.log(results);
-			connection.query(query,["%"+id+"%","%"+id+"%"],function(err,result,fields){
+			connection.query(query,[id,id],function(err,result,fields){
 				connection.release();
 				
 				var parametres = {};
@@ -250,46 +250,4 @@ module.exports = router;
 
 
 
-function insert(){
-	var path ="D:\\caspserFiles\\games\\allData.json";
-	fs.readFile(path, function (err, data) {
-	  //console.log("connection is good");
-	  var obj = JSON.parse(data);
-	  //var query = "insert into jokes set joke = ?, title = ?, dateAdd = ?";
-	  //for(var i=0;i<obj.length;i++){
-	  for(var i=0;i<obj.length;i++){
-	  		  var query = "insert into games set filename = ?, title = ?, description = ?, likes=?, dislike=?, categorie=?, views=?, dateAdd=?";
 
-	  	var filename = (obj[i].filename);
-	  	var title = (obj[i].title);
-	  	var desc = (obj[i].desc);
-	  	////console.log(desc);
-	  	var like = parseInt(obj[i].like);
-	  	var dislike = parseInt(obj[i].dislike);
-	  	var categorie = obj[i].cat;
-	  	var views,dateAdd;
-
-	  	if(obj[i].views){
-	  		views = parseInt(obj[i].views);
-	  		var t = (obj[i].dateAdd).split("/");
-	  		dateAdd = t[2]+'-'+t[0]+'-'+t[1];
-	  	}else{
-	  		views = 0;
-	  		dateAdd = "2015-10-26";
-	  	}
-
-	  	var data = [filename,title,desc,like,dislike,categorie,views,dateAdd];
-	  	
-	  	var query = connection.query(query,data,function(err, result){
-	  	//connection.query(query,obj[i].joke,function(err, result){
-	  		
-	  		if(err)throw err;
-
-	  	});
-	  	//console.log(query.sql);
-
-	  	
-	  };
-	  
-	});
-}
