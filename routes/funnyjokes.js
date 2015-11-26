@@ -26,7 +26,7 @@ router.get('/',function(req,res,next){
 router.get('/page/:page([0-9]+)', function(req, res, next) {
 	var page = parseInt(req.params.page);
 	var offset = (page-1)*nbrPost;
-	var query = "select * from jokes where publish = 1 order by id DESC limit "+nbrPost+" 10 offset "+offset;
+	var query = "select * from jokes where publish = 1 order by id timeAdd limit "+nbrPost+" 10 offset "+offset;
 	var query1 = "select distinct(categorie) from pictures";
 	var query2 = "select count(*) as nbrPost from jokes";
 	var query3 = "select * from jokes where publish = 1 order by timeAdd desc limit 4"
