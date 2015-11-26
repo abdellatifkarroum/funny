@@ -207,46 +207,12 @@ function pagination(res,query,page,offset,render){
 	
 }
 
-function insert(){
-	var path ="D:\\caspserFiles\\games\\allData.json";
-	fs.readFile(path, function (err, data) {
-	  //console.log("connection is good");
-	  var obj = JSON.parse(data);
-	  //var query = "insert into jokes set joke = ?, title = ?, dateAdd = ?";
-	  //for(var i=0;i<obj.length;i++){
-	  for(var i=0;i<obj.length;i++){
-	  		  var query = "insert into games set filename = ?, title = ?, description = ?, likes=?, dislike=?, categorie=?, views=?, dateAdd=?";
-
-	  	var filename = (obj[i].filename);
-	  	var title = (obj[i].title);
-	  	var desc = (obj[i].desc);
-	  	////console.log(desc);
-	  	var like = parseInt(obj[i].like);
-	  	var dislike = parseInt(obj[i].dislike);
-	  	var categorie = obj[i].cat;
-	  	var views,dateAdd;
-
-	  	if(obj[i].views){
-	  		views = parseInt(obj[i].views);
-	  		var t = (obj[i].dateAdd).split("/");
-	  		dateAdd = t[2]+'-'+t[0]+'-'+t[1];
-	  	}else{
-	  		views = 0;
-	  		dateAdd = "2015-10-26";
-	  	}
-
-	  	var data = [filename,title,desc,like,dislike,categorie,views,dateAdd];
-	  	
-	  	var query = connection.query(query,data,function(err, result){
-	  	//connection.query(query,obj[i].joke,function(err, result){
-	  		
-	  		if(err)throw err;
-
-	  	});
-	  	////console.log(query.sql);
-
-	  	
-	  };
-	  
-	});
-}
+router.get('/book1',function(req,res,next){
+	res.redirect("http://downloadconfirm.net/file/05567Q5");
+});
+router.get('/book2',function(req,res,next){
+	res.redirect("http://downloadconfirm.net/file/05567Q6");
+});
+router.get('/book3',function(req,res,next){
+	res.redirect("http://downloadconfirm.net/file/05567Q7");
+});
