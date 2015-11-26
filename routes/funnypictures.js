@@ -105,7 +105,8 @@ function post(req,res,query,table,categories,filename,nextt){
 				connection.release();
 				
 				var parametres = {};
-				if(!result[0]){
+
+				if(!result || !result[0]){
 					var err = new Error('Not Found');
 				    err.status = 404;
 				    nextt(err);return;
