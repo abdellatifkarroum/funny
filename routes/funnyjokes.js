@@ -26,10 +26,10 @@ router.get('/',function(req,res,next){
 router.get('/page/:page([0-9]+)', function(req, res, next) {
 	var page = parseInt(req.params.page);
 	var offset = (page-1)*nbrPost;
-	var query = "select * from jokes "+nbrPost+" 10 offset "+offset;
+	var query = "select * from jokes where publish = 1 order by id DESC limit "+nbrPost+" 10 offset "+offset;
 	var query1 = "select distinct(categorie) from pictures";
 	var query2 = "select count(*) as nbrPost from jokes";
-	var query3 = "select * from jokes order by timeAdd desc limit 4"
+	var query3 = "select * from jokes where publish = 1 order by timeAdd desc limit 4"
 	var query = query+";"+query1+";"+query2+";"+query3;
 
 	pagination(res,query,page,offset,"jokes.html.twig");
@@ -66,14 +66,14 @@ router.get('/funnyjoke/:id([0-9]+)',function(req,res,next){
 	var query1 = "select distinct(categorie) from pictures";
 	var query2 = "select distinct(categorie) from games";
 	var query3 = "update jokes set views = views+1 where id = "+filename;
-	var query4 = "select * from jokes order by timeAdd desc limit 6"
+	var query4 = "select * from jokes where publish = 1 order by timeAdd desc limit 6"
 	var query = query1+";"+query2+";"+query3+";"+query4;
 	pool.getConnection(function(err,connection){
 
 		connection.query(query,function(err,categories){
 			connection.release();
 			//if(err) throw err;
-			var query = "select * from jokes where id = ?";
+			var query = "select * from jokes where id = ? and publish = 1";
 			//console.log(query)
 
 			post(req,res,query,"jokes",categories,filename,next);
