@@ -184,7 +184,7 @@ function pagination(res,query,page,offset,render,categorie,nextt){
 		connection.query(query,function(err,results){
 			connection.release();
 			//console.log(results[2][0]);
-			if(results[2][0].nbrPost == 0){
+			if(!result || results[2][0].nbrPost == 0){
 					var err = new Error('Not Found');
 				    err.status = 404;
 				    nextt(err);return;
